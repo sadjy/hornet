@@ -31,4 +31,3 @@ Please describe the tests that you ran to verify your changes. Provide instructi
 - [ ] I have commented my code, particularly in hard-to-understand areas
 - [ ] I have made corresponding changes to the documentation
 - [ ] I have tested my code extensively
-- [ ] I have selected the `develop` branch as the target branch
