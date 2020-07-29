@@ -17,31 +17,12 @@ jobs:
         run: docker build . -f docker/Dockerfile.dev -t iotaledger/hornet:$(git rev-parse --short "$GITHUB_SHA") 
 
       - name: Test HORNET Docker image
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        run: docker run --rm --name hornet hornet:latest --version 2>/dev/null | grep -q "HORNET"
-=======
-        run: docker run --rm --name hornet sadjy/hornet:latest --help 2>/dev/null | grep -q "help requested"
-=======
-        run: docker run --rm --name hornet iotaledger/hornet:latest --help 2>/dev/null | grep -q "help requested"
->>>>>>> PR preparation
-=======
-        run: docker run --rm --name hornet iotaledger/hornet:$(git rev-parse --short "$GITHUB_SHA") --help 2>/dev/null | grep -q "help requested"
->>>>>>> correcting mistakes build_docker
+        run: docker run --rm --name hornet iotaledger/hornet:$(git rev-parse --short "$GITHUB_SHA") --version 2>/dev/null | grep -q "HORNET"
 
       - name: Docker login
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Docker push
-<<<<<<< HEAD
-<<<<<<< HEAD
-        run: docker push sadjy/hornet:$(git rev-parse --short "$GITHUB_SHA")
->>>>>>> pushing changes
-=======
-        run: docker push iotaledger/hornet:$(git rev-parse --short "$GITHUB_SHA")
->>>>>>> PR preparation
-=======
         run: docker push iotaledger/hornet:$(git rev-parse --short "$GITHUB_SHA")
 
       - name: Docker push - Release
@@ -52,4 +33,3 @@ jobs:
           docker push iotaledger/hornet:$RELEASE_VERSION
           docker push iotaledger/hornet:latest
         if: startsWith(github.ref, 'refs/tags/v')        
->>>>>>> fix GHA PR
