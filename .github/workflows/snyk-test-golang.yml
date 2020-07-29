@@ -1,9 +1,11 @@
 name: Test Golang dependencies with Snyk
+
 on:
   push:
-    branches: [master, develop]
+    branches:
+      - master
   pull_request:
-    branches: [master, develop]
+
 jobs:
   security:
     # Only run on push events or PRs from gohornet/hornet, skip on PRs from forks
@@ -18,4 +20,4 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --org=gohornet
+          args: --org=iotaledger
