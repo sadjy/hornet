@@ -5,7 +5,6 @@ FROM golang@sha256:ebe7f5d1a2a6b884bc1a45b8c1ff7e26b7b95938a3e8847ea96fc6761fdc2
 RUN update-ca-certificates
 
 # Set the current Working Directory inside the container
-RUN mkdir /app
 WORKDIR /app
 
 # Use Go Modules
@@ -45,6 +44,7 @@ COPY ./mqtt_config.json /app/mqtt_config.json
 
 RUN addgroup --gid 39999 hornet \
  && adduser -h /app -s /bin/sh -G hornet -u 39999 -D hornet \
+ && mkdir -p /app/data \
  && chown hornet:hornet -R /app
 
 WORKDIR "/app"
