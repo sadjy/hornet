@@ -17,6 +17,12 @@ jobs:
       - name: Test HORNET Docker image
         run: docker run --rm --name hornet iotaledger/hornet:$(git rev-parse --short "$GITHUB_SHA") --version 2>/dev/null | grep -q "HORNET"
 
+      - name: AWS login
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region ${{ secrets.AWS_DEFAULT_REGION }}
+
       - name: Docker login
         run: |
           aws ecr get-login-password --region ${{ secrets.AWS_DEFAULT_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com
