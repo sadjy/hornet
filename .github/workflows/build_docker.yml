@@ -32,7 +32,6 @@ jobs:
 
       - name: Docker push
         run: |
-          export VERSION=${GITHUB_REF#refs/*/}
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/hornet:$(git rev-parse --short "$GITHUB_SHA")
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/hornet:latest
 
