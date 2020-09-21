@@ -15,10 +15,10 @@ jobs:
         run: echo "::set-env name=GIT_SHA::$(git rev-parse --short "$GITHUB_SHA")"
 
       - name: Build HORNET Docker image
-        run: docker build . -f docker/Dockerfile.dev -t sadjy/hornet:${{ GIT_SHA }} -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/hornet:${{ GIT_SHA }} -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/hornet:latest
+        run: docker build . -f docker/Dockerfile.dev -t sadjy/hornet:${{ env.GIT_SHA }} -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/hornet:${{ env.GIT_SHA }} -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/hornet:latest
 
       - name: Test HORNET Docker image
-        run: docker run --rm --name hornet sadjy/hornet:${{ GIT_SHA }} --version 2>/dev/null | grep -q "HORNET"
+        run: docker run --rm --name hornet sadjy/hornet:${{ env.GIT_SHA }} --version 2>/dev/null | grep -q "HORNET"
 
       - name: AWS login
         run: |
@@ -33,15 +33,15 @@ jobs:
 
       - name: Docker push
         run: |
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/hornet:${{ GIT_SHA }}
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/hornet:${{ env.GIT_SHA }}
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/hornet:latest
 
       - name: Docker push - Release
         run: |
           echo "::set-env name=RELEASE_VERSION::${GITHUB_REF#refs/*/}"
-          docker tag sadjy/hornet:${{ GIT_SHA }} ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/hornet:${{ RELEASE_VERSION }}
-          docker tag sadjy/hornet:${{ GIT_SHA }} sadjy/hornet:${{ RELEASE_VERSION }}
-          docker tag sadjy/hornet:${{ GIT_SHA }} sadjy/hornet:latest
+          docker tag sadjy/hornet:${{ env.GIT_SHA }} ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/hornet:${{ RELEASE_VERSION }}
+          docker tag sadjy/hornet:${{ env.GIT_SHA }} sadjy/hornet:${{ RELEASE_VERSION }}
+          docker tag sadjy/hornet:${{ env.GIT_SHA }} sadjy/hornet:latest
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/hornet:${{ RELEASE_VERSION }}
           docker push sadjy/hornet:${{ RELEASE_VERSION }}
           docker push sadjy/hornet:latest
@@ -50,7 +50,7 @@ jobs:
 
       - name: Passing env var to next job
         id: git_sha
-        run: echo "::set-output name=git_sha::${{ GIT_SHA }}"
+        run: echo "::set-output name=git_sha::${{ env.GIT_SHA }}"
 
   trigger-deploy:
     name: Triggering deployment
