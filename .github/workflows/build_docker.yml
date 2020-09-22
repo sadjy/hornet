@@ -59,6 +59,11 @@ jobs:
     name: Triggering deployment
     needs: build
     runs-on: ubuntu-latest
+
+    # strategy:
+    #   matrix:
+    #     environment: ["comnet", "devnet", "mainnet"]
+
     steps:
       - name: Triggering Hornet deployment
         run: |
