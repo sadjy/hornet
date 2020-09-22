@@ -1,7 +1,7 @@
 name: Deploy Hornet
 
 on:
-  deployment
+  deployment:
 
 jobs:
   deploy:
