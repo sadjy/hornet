@@ -70,4 +70,4 @@ jobs:
           curl -X POST https://api.github.com/repos/sadjy/hornet/deployments \
           -H 'Accept: application/vnd.github.v3+json' \
           -u ${{ secrets.GIT_TOKEN }} \
-          --data '{"ref": "${{ needs.build.outputs.git_sha }}", "task": "deploy", "automerge": false, "payload": {"hornet_ref": "${{ needs.build.outputs.git_sha }}"}, "environment": "comnet", "description": "", "transient_environment": false, "production_environment": false}'
+          --data '{"ref": "${{ env.GITHUB_SHA }}", "task": "deploy", "automerge": false, "payload": {"hornet_ref": "${{ needs.build.outputs.git_sha }}"}, "environment": "comnet", "description": "", "transient_environment": false, "production_environment": false}'
