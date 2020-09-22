@@ -52,6 +52,9 @@ jobs:
         id: git_sha
         run: echo "::set-output name=git_sha::${{ env.GIT_SHA }}"
 
+    outputs:
+      git_sha: ${{ steps.git_sha.outputs.git_sha }}
+
   trigger-deploy:
     name: Triggering deployment
     needs: build
