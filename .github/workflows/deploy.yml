@@ -2,7 +2,8 @@ name: Deploy Hornet
 
 on:
   deployment:
-
+  deployment_status:
+  
 jobs:
   deploy:
     name: Dispatch to OPS
