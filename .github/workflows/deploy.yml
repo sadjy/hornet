@@ -1,0 +1,19 @@
+name: Deploy Hornet
+
+on:
+  deployment
+
+jobs:
+  deploy:
+    name: Dispatch to OPS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Testing
+        run: echo ${{ github.event.payload.hornet_ref }}
+        
+      # - name: Triggering Hornet deployment
+      #   run: |
+      #     curl -X POST https://api.github.com/repos/iotaledger/${{ secrets.OPS_GITHUB_REPO }}/dispatches \
+      #     -H 'Accept: application/vnd.github.v3+json' \
+      #     -u ${{ secrets.ACCESS_TOKEN }} \
+      #     --data '{"event_type": "hornet-cd", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'", "hornet_tag": "${{ GIT_SHA }}" }}'
