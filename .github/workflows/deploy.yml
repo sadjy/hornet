@@ -9,11 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Testing
-        run: echo ${{ github.event.hornet_ref }}
+        run: echo ${{ github.event }}
         
       - name: Triggering Hornet deployment
         run: |
           curl -X POST https://api.github.com/repos/sadjy/${{ secrets.OPS_GIT_REPO }}/dispatches \
           -H 'Accept: application/vnd.github.v3+json' \
           -u ${{ secrets.GIT_TOKEN }} \
-          --data '{"event_type": "hornet-deploy", "client_payload": { "hornet_ref": "${{ github.event.hornet_ref }}", "environment": "${{ github.event.environment }}", "deployment_id": "${{ github.event.id }}" }}'
+          --data '{"event_type": "hornet-deploy", "client_payload": { "hornet_ref": "${{ github.event.hornet_ref }}", "environment": "${{ github.event.environment }}", "deployment_id": "${{ github.event.id }}"}}'
