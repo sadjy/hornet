@@ -8,13 +8,10 @@ jobs:
     name: Dispatch to OPS
     runs-on: ubuntu-latest
     steps:
-      - name: Testing
-        run: echo "${{ github.event.deployment.id }}"
-        
       - name: Triggering Hornet deployment
         run: |
           curl -X POST https://api.github.com/repos/sadjy/${{ secrets.OPS_GIT_REPO }}/dispatches \
           -H 'Accept: application/vnd.github.v3+json' \
           -u ${{ secrets.GIT_TOKEN }} \
-          --data '{"event_type": "hornet-deploy", "client_payload": { "hornet_ref": "${{ github.event.payload.hornet_ref }}", "environment": "${{ github.event.hornet_ref }}", "deployment_id": "${{ github.event.deployment.ref }}"
+          --data '{"event_type": "hornet-deploy", "client_payload": { "hornet_ref": "${{ github.event.deployment.ref }}", "environment": "${{ github.event.deployment.environment }}", "deployment_id": "${{ github.event.deployment.id }}"
           }}'
