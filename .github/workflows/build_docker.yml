@@ -65,9 +65,24 @@ jobs:
     #     environment: ["comnet", "devnet", "mainnet"]
 
     steps:
-      - name: Triggering Hornet deployment
+      - name: Triggering comnet deployment
         run: |
           curl -X POST https://api.github.com/repos/sadjy/hornet/deployments \
           -H 'Accept: application/vnd.github.v3+json' \
           -u ${{ secrets.GIT_TOKEN }} \
           --data '{"ref": "${{ needs.build.outputs.git_sha }}", "task": "deploy", "automerge": false, "required_contexts": [], "payload": {}, "environment": "comnet", "description": "", "transient_environment": false, "production_environment": false}'
+
+      - name: Triggering devnet deployment
+        run: |
+          curl -X POST https://api.github.com/repos/sadjy/hornet/deployments \
+          -H 'Accept: application/vnd.github.v3+json' \
+          -u ${{ secrets.GIT_TOKEN }} \
+          --data '{"ref": "${{ needs.build.outputs.git_sha }}", "task": "deploy", "automerge": false, "required_contexts": [], "payload": {}, "environment": "devnet", "description": "", "transient_environment": false, "production_environment": false}'
+
+      - name: Triggering mainnet deployment
+        if: startsWith(${{ needs.build.outputs.git_sha }}, 'refs/tags/v')
+        run: |
+          curl -X POST https://api.github.com/repos/sadjy/hornet/deployments \
+          -H 'Accept: application/vnd.github.v3+json' \
+          -u ${{ secrets.GIT_TOKEN }} \
+          --data '{"ref": "${{ needs.build.outputs.git_sha }}", "task": "deploy", "automerge": false, "required_contexts": [], "payload": {}, "environment": "mainnet", "description": "", "transient_environment": false, "production_environment": true}'

@@ -13,4 +13,4 @@ jobs:
           curl -X POST https://api.github.com/repos/sadjy/${{ secrets.OPS_GIT_REPO }}/dispatches \
           -H 'Accept: application/vnd.github.v3+json' \
           -u ${{ secrets.GIT_TOKEN }} \
-          --data '{"event_type": "hornet-deploy", "client_payload": { "hornet_ref": "${{ github.event.deployment.ref }}", "environment": "${{ github.event.deployment.environment }}", "deployment_id": "${{ github.event.deployment.id }}"}}'
+          --data '{"event_type": "auto-deploy", "client_payload": { "hornet_ref": "${{ github.event.deployment.ref }}", "environment": "${{ github.event.deployment.environment }}", "deployment_id": "${{ github.event.deployment.id }}"}}'
